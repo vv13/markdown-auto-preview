@@ -1,8 +1,10 @@
 # markdown-auto-preview README
 
+[![version](https://img.shields.io/visual-studio-marketplace/v/vv13.markdown-auto-preview?label=vscode%20marketplace)](https://marketplace.visualstudio.com/items?itemName=vv13.markdown-auto-preview)
+
 This extension provides automatic preview of markdown files in Visual Studio Code, and closes the preview window when the markdown file is closed.
 
-### Features
+#### Features
 
 - Automatically previews markdown files when they are opened in Visual Studio Code, and focus on editor window.
 - Closes the preview window when the corresponding markdown file is closed.
@@ -15,6 +17,10 @@ You can also open settings to change the extensions's behavior:
 ![](https://github-production-user-asset-6210df.s3.amazonaws.com/9440756/237149323-c5754a1b-aee8-4ed9-9f01-fef5940822f4.png)
 
 ### Release Notes
+
+#### 0.1.1
+
+Fix DiffView trigger auto preview case layout problem.
 
 #### 0.1.0
 
