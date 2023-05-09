@@ -1,0 +1,85 @@
+{
+  "name": "markdown-auto-preview",
+  "displayName": "Markdown Auto Preview",
+  "publisher": "vv13",
+  "description": "Auto show preview in Markdown",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.77.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:markdown",
+    "onLanguage:rmd",
+    "onLanguage:quarto",
+    "onCommand:markdown.extension.printToHtmlBatch",
+    "workspaceContains:README.md"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [],
+    "configuration": {
+      "type": "object",
+      "title": "Markdown Auto Preview",
+      "properties": {
+        "markdown-auto-preview.autoShowPreviewToSide": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto show preview to side."
+        },
+        "markdown-auto-preview.autoClosePreviewWindow": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto close preview window when close source markdown file."
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "markdown-auto-preview.closePreview",
+        "key": "ctrl+shift+v",
+        "mac": "cmd+shift+v",
+        "when": "activeWebviewPanelId == 'markdown.preview'"
+      },
+      {
+        "command": "markdown-auto-preview.closePreview",
+        "key": "ctrl+k v",
+        "mac": "cmd+k v",
+        "when": "activeWebviewPanelId == 'markdown.preview'"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vv13/markdown-auto-preview"
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.77.0",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@typescript-eslint/eslint-plugin": "^5.59.1",
+    "@typescript-eslint/parser": "^5.59.1",
+    "eslint": "^8.39.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "typescript": "^5.0.4",
+    "ts-loader": "^9.4.2",
+    "webpack": "^5.81.0",
+    "webpack-cli": "^5.0.2",
+    "@vscode/test-electron": "^2.3.0"
+  }
+}
