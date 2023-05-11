@@ -2,7 +2,7 @@
   "name": "markdown-auto-preview",
   "displayName": "Markdown Auto Preview",
   "publisher": "vv13",
-  "description": "Auto show preview in Markdown",
+  "description": "Automatically preview in Markdown files.",
   "version": "0.1.1",
   "engines": {
     "vscode": "^1.77.0"
@@ -18,7 +18,23 @@
     "workspaceContains:README.md"
   ],
   "main": "./dist/extension.js",
+  "icon": "icon.jpg",
   "contributes": {
+    "markdown.markdownItPlugins": true,
+    "markdown.previewStyles": [
+      "./styles/base.css",
+      "./styles/github-markdown-theme-base.css",
+      "./styles/github-markdown-light.css",
+      "./styles/github-markdown-light-colorblind.css",
+      "./styles/github-markdown-light-tritanopia.css",
+      "./styles/github-markdown-light-high-contrast.css",
+      "./styles/github-markdown-dark.css",
+      "./styles/github-markdown-dark-dimmed.css",
+      "./styles/github-markdown-dark-colorblind.css",
+      "./styles/github-markdown-dark-tritanopia.css",
+      "./styles/github-markdown-dark-high-contrast.css",
+      "./styles/highlight-js.css"
+    ],
     "commands": [],
     "configuration": {
       "type": "object",
@@ -33,6 +49,86 @@
           "type": "boolean",
           "default": true,
           "description": "Auto close preview window when close source markdown file."
+        },
+        "markdown-auto-preview.colorTheme": {
+          "type": "string",
+          "order": 0,
+          "description": "Color theme mode for the styling of the Markdown preview.",
+          "enum": [
+            "auto",
+            "system",
+            "light",
+            "dark"
+          ],
+          "enumItemLabels": [
+            "Auto (match editor)",
+            "System",
+            "Single theme: Light",
+            "Single theme: Dark"
+          ],
+          "enumDescriptions": [
+            "Automatically match the editor color theme.",
+            "Sync to the system/OS color theme.",
+            "Always use the selected Light theme",
+            "Always use the selected Dark theme"
+          ],
+          "default": "auto"
+        },
+        "markdown-auto-preview.lightTheme": {
+          "type": "string",
+          "order": 1,
+          "markdownDescription": "Theme to use when displaying in Light mode. Ignored if `#markdown-auto-preview.colorTheme#` is set to `Single theme: Dark`",
+          "enum": [
+            "light",
+            "light_high_contrast",
+            "light_colorblind",
+            "light_tritanopia",
+            "dark",
+            "dark_high_contrast",
+            "dark_colorblind",
+            "dark_tritanopia",
+            "dark_dimmed"
+          ],
+          "enumItemLabels": [
+            "Light",
+            "Light high contrast",
+            "Light Protanopia & Deuteranopia",
+            "Light Tritanopia",
+            "Dark",
+            "Dark high contrast",
+            "Dark Protanopia & Deuteranopia",
+            "Dark Tritanopia",
+            "Dark dimmed"
+          ],
+          "default": "light"
+        },
+        "markdown-auto-preview.darkTheme": {
+          "type": "string",
+          "order": 2,
+          "markdownDescription": "Theme to use when displaying in Dark mode. Ignored if `#markdown-auto-preview.colorTheme#` is set to `Single theme: Light`.",
+          "enum": [
+            "light",
+            "light_high_contrast",
+            "light_colorblind",
+            "light_tritanopia",
+            "dark",
+            "dark_high_contrast",
+            "dark_colorblind",
+            "dark_tritanopia",
+            "dark_dimmed"
+          ],
+          "enumItemLabels": [
+            "Light",
+            "Light high contrast",
+            "Light Protanopia & Deuteranopia",
+            "Light Tritanopia",
+            "Dark",
+            "Dark high contrast",
+            "Dark Protanopia & Deuteranopia",
+            "Dark Tritanopia",
+            "Dark dimmed"
+          ],
+          "default": "dark"
         }
       }
     },
@@ -55,6 +151,7 @@
     "type": "git",
     "url": "https://github.com/vv13/markdown-auto-preview"
   },
+  "license": "MIT",
   "scripts": {
     "vscode:prepublish": "pnpm run package",
     "compile": "webpack",
@@ -64,22 +161,26 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "generate-css": "node ./styles/generate-github-css.mjs"
   },
   "devDependencies": {
-    "@types/vscode": "^1.77.0",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
+    "@types/vscode": "^1.77.0",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
+    "@vscode/test-electron": "^2.3.0",
     "eslint": "^8.39.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "typescript": "^5.0.4",
     "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
     "webpack": "^5.81.0",
-    "webpack-cli": "^5.0.2",
-    "@vscode/test-electron": "^2.3.0"
+    "webpack-cli": "^5.0.2"
+  },
+  "dependencies": {
+    "generate-github-markdown-css": "^5.1.0"
   }
 }

@@ -2,26 +2,33 @@
 
 [![version](https://img.shields.io/visual-studio-marketplace/v/vv13.markdown-auto-preview?label=vscode%20marketplace)](https://marketplace.visualstudio.com/items?itemName=vv13.markdown-auto-preview)
 
-This extension provides automatic preview of markdown files in Visual Studio Code, and closes the preview window when the markdown file is closed.
+The smarter markdown preview extensions.
 
-#### Features
+## Features
 
-- Automatically previews markdown files when they are opened in Visual Studio Code, and focus on editor window.
-- Closes the preview window when the corresponding markdown file is closed.
+- Automatically open or close preview window, and focus cursor to editor.
+- Providing various github theme styles in preview.
 
-### Usage
+## Settings
 
-Open a markdown file and the preview window will automatically open in the side panel. When the markdown file is closed, the preview window will also be closed automatically.
+This extension provides the following settings:
 
-You can also open settings to change the extensions's behavior:
-![](https://github-production-user-asset-6210df.s3.amazonaws.com/9440756/237149323-c5754a1b-aee8-4ed9-9f01-fef5940822f4.png)
+- `markdown-auto-preview.autoShowPreviewToSide`: Auto show preview to side.
+- `markdown-auto-preview.autoClosePreviewWindow`: Auto close preview window when close source markdown file.
+- `markdown-auto-preview.colorTheme`: Color theme mode for the styling of the Markdown preview.
+- `markdown-auto-preview.lightTheme`: Theme to use when displaying in Light mode. Ignored if **markdown-auto-preview.colorTheme** is set to `Dark`.
+- `markdown-auto-preview.darkTheme`: Theme to use when displaying in Dark mode. Ignored if **markdown-auto-preview.colorTheme** is set to `Light`..
 
-### Release Notes
+## Release Notes
 
-#### 0.1.1
+### 0.2.0
+
+Add Github styles theme in preview.
+
+### 0.1.1
 
 Fix DiffView trigger auto preview case layout problem.
 
-#### 0.1.0
+### 0.1.0
 
 Initial release of Auto Preview Markdown.
