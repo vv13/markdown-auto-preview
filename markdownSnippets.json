@@ -1,0 +1,76 @@
+{
+    "Header 1": {
+        "prefix": "/h1",
+        "body": [
+            "# $1"
+        ],
+        "description": "Inserts a level 1 header"
+    },
+    "Header 2": {
+        "prefix": "/h2",
+        "body": [
+            "## $1"
+        ],
+        "description": "Inserts a level 2 header"
+    },
+    "Header 3": {
+        "prefix": "/h3",
+        "body": [
+            "### $1"
+        ],
+        "description": "Inserts a level 3 header"
+    },
+    "Header 4": {
+        "prefix": "/h4",
+        "body": [
+            "#### $1"
+        ],
+        "description": "Inserts a level 4 header"
+    },
+    "Header 5": {
+        "prefix": "/h5",
+        "body": [
+            "##### $1"
+        ],
+        "description": "Inserts a level 5 header"
+    },
+    "Table": {
+        "prefix": "/table",
+        "body": [
+            "|      |      |",
+            "| ---- | ---- |",
+            "|      |      |",
+            "|      |      |"
+        ],
+        "description": "Inserts a table layout"
+    },
+    "Code": {
+        "prefix": "/code",
+        "body": [
+            "```$1",
+            "```"
+        ],
+        "description": "Inserts a code snippet"
+    },
+    "Divider": {
+        "prefix": "/divide",
+        "body": [
+            "------"
+        ],
+        "description": "Inserts a divider"
+    },
+    "Image": {
+        "prefix": "/image",
+        "body": [
+            "![$1]($2)"
+        ],
+        "description": "Inserts a image"
+    },
+    "Url": {
+        "prefix": "/url",
+        "body": [
+            "[$1]($2)"
+        ],
+        "description": "Inserts a url"
+    },
+}

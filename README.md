@@ -8,6 +8,7 @@ The smarter markdown preview extensions.
 
 - Automatically open or close preview window, and focus cursor to editor.
 - Providing various github theme styles in preview.
+- Integrates some commonly used syntax snippets, like `/h2`, `/code`, `/table` and etc.
 
 ## Settings
 
@@ -20,6 +21,10 @@ This extension provides the following settings:
 - `markdown-auto-preview.darkTheme`: Theme to use when displaying in Dark mode. Ignored if **markdown-auto-preview.colorTheme** is set to `Light`..
 
 ## Release Notes
+
+### 0.3.0
+
+Add some markdown snippets.
 
 ### 0.2.0
 

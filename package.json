@@ -2,8 +2,8 @@
   "name": "markdown-auto-preview",
   "displayName": "Markdown Auto Preview",
   "publisher": "vv13",
-  "description": "Automatically preview in Markdown files.",
-  "version": "0.1.1",
+  "description": "Automatically preview Markdown with Github styling.",
+  "version": "0.3.0",
   "engines": {
     "vscode": "^1.77.0"
   },
@@ -144,6 +144,12 @@
         "key": "ctrl+k v",
         "mac": "cmd+k v",
         "when": "activeWebviewPanelId == 'markdown.preview'"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "markdown",
+        "path": "./markdownSnippets.json"
       }
     ]
   },

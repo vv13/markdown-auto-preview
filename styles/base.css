@@ -1,59 +1,58 @@
 html,
 body,
 .github-markdown-body {
-    padding: 0 !important;
-    max-width: auto !important;
+  padding: 0 !important;
+  max-width: auto !important;
 }
 
 .github-markdown-body {
-    background-color: var(--color-canvas-default);
-    color: var(--color-fg-default);
+  background-color: var(--color-canvas-default);
+  color: var(--color-fg-default);
 }
 
 .github-markdown-body {
-    border: 1px solid transparent;
-    box-sizing: border-box;
-    margin: 0 auto;
-    width: 100% !important;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 100% !important;
 }
 
 .github-markdown-content {
-    padding: 32px !important;
-    max-width: 980px;
-    min-width: 200px;
-    margin: 0 auto;
+  padding: 32px !important;
+  max-width: 980px;
+  min-width: 200px;
+  margin: 0 auto;
 }
-
 
 .vscode-body.scrollBeyondLastLine {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 .vscode-body.scrollBeyondLastLine .github-markdown-body {
-    padding-bottom: calc(100vh + 10px) !important;
+  padding-bottom: calc(100vh + 10px) !important;
 }
 
 .github-markdown-body blockquote {
-    background-color: initial;
+  background-color: initial;
 }
 
 .github-markdown-body pre {
-    color: initial;
+  color: initial;
 }
 
 .github-markdown-body code {
-    color: inherit;
+  color: inherit;
 }
 
 .github-markdown-body pre code {
-    color: initial;
+  color: initial;
 }
 
 .github-markdown-body code > div {
-    background: none
+  background: none;
 }
 
 .github-markdown-body.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
+  border-left: none;
 }
 
 .github-markdown-body p,
@@ -67,6 +66,19 @@ body,
   margin-bottom: 16px;
 }
 
+/* Fix Table initial size */
+.github-markdown-body table td,
+.github-markdown-body table th {
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.github-markdown-body table th::before,
+.github-markdown-body table td::before {
+  display: inline-block;
+  content: " ";
+}
+
 .vscode-dark.showEditorSelection .code-line:hover:before {
-    border-left: 3px solid var(--color-fg-default);
+  border-left: 3px solid var(--color-fg-default);
 }
