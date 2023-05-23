@@ -1,45 +1,12 @@
 import * as vscode from "vscode";
 import * as path from "path";
 
-let debounceHandle: ReturnType<typeof setTimeout> | undefined;
+let autoPreviewDebounce: ReturnType<typeof setTimeout> | undefined;
 let lastDoc: vscode.TextDocument | undefined;
 
-const autoPreviewDisposable = Object.freeze<
-  vscode.Disposable & { _disposables: vscode.Disposable[]; add: (param: vscode.Disposable) => void }
->({
-  _disposables: [],
-  add: function (item: vscode.Disposable) {
-    this._disposables.push(item);
-  },
-  dispose: function () {
-    for (const item of this._disposables) {
-      item.dispose();
-    }
-    this._disposables.length = 0;
+let _autoPreviewDisposable: vscode.Disposable | null = null;
 
-    if (debounceHandle) {
-      clearTimeout(debounceHandle);
-      debounceHandle = undefined;
-    }
-
-    lastDoc = undefined;
-  },
-});
-
-const autoCloseDisposable = Object.freeze<
-  vscode.Disposable & { _disposables: vscode.Disposable[]; add: (param: vscode.Disposable) => void }
->({
-  _disposables: [],
-  add: function (item: vscode.Disposable) {
-    this._disposables.push(item);
-  },
-  dispose: function () {
-    for (const item of this._disposables) {
-      item.dispose();
-    }
-    this._disposables.length = 0;
-  },
-});
+let _autoCloseDisposable: vscode.Disposable | null = null;
 
 export function activate(context: vscode.ExtensionContext) {
   // Register auto preview. And try showing preview on activation.
@@ -48,20 +15,17 @@ export function activate(context: vscode.ExtensionContext) {
       if (vscode.workspace.getConfiguration("markdown-auto-preview").get<boolean>("autoShowPreviewToSide")) {
         registerAutoPreview();
       } else {
-        autoPreviewDisposable.dispose();
+        _autoPreviewDisposable?.dispose?.();
+        _autoPreviewDisposable = null;
       }
       if (vscode.workspace.getConfiguration("markdown-auto-preview").get<boolean>("autoClosePreviewWindow")) {
         registerAutoClose();
       } else {
-        autoCloseDisposable.dispose();
+        _autoCloseDisposable?.dispose?.();
+        _autoCloseDisposable = null;
       }
     }
   });
-
-  if (vscode.workspace.getConfiguration("markdown-auto-preview").get<boolean>("autoShowPreviewToSide")) {
-    registerAutoPreview();
-    triggerAutoPreview(vscode.window.activeTextEditor);
-  }
 
   const d2 = vscode.commands.registerCommand("markdown-auto-preview.closePreview", () => {
     return vscode.commands.executeCommand("workbench.action.closeActiveEditor");
@@ -75,58 +39,54 @@ export function activate(context: vscode.ExtensionContext) {
     registerAutoClose();
   }
   // Keep code tidy.
-  context.subscriptions.push(d1, d2, autoPreviewDisposable, autoCloseDisposable);
+  context.subscriptions.push(d1, d2, _autoPreviewDisposable!, _autoCloseDisposable!);
   return {};
 }
 
 function registerAutoPreview() {
-  if (autoPreviewDisposable._disposables.length) {
+  if (_autoPreviewDisposable) {
     return;
   }
-  autoPreviewDisposable._disposables.push(
-    vscode.window.onDidChangeActiveTextEditor((editor) => triggerAutoPreview(editor))
-  );
+  _autoPreviewDisposable = vscode.window.onDidChangeActiveTextEditor((editor) => triggerAutoPreview(editor));
 }
 
 function registerAutoClose() {
-  if (autoCloseDisposable._disposables.length) {
+  if (_autoCloseDisposable) {
     return;
   }
-  autoCloseDisposable._disposables.push(
-    vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
-      const filename = document.fileName.split(path.sep).pop();
-      if (!filename || !filename?.endsWith(".md")) {
-        return;
-      }
 
-      vscode.window.tabGroups.all.forEach((item) => {
-        const searchReg = new RegExp(`\\[?Preview\\]?\\s${filename.slice(0, filename.length - 3)}\\.md`);
-        const target = item.tabs.find((tab) => searchReg.test(tab.label));
-        if (target) {
-          vscode.window.tabGroups.close(target);
-        }
-      });
-    })
-  );
+  _autoCloseDisposable = vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
+    const filename = document.fileName.split(path.sep).pop();
+    if (!filename || !filename?.endsWith(".md")) {
+      return;
+    }
+
+    vscode.window.tabGroups.all.forEach((item) => {
+      const searchReg = new RegExp(`\\[?Preview\\]?\\s${filename.slice(0, filename.length - 3)}\\.md`);
+      const target = item.tabs.find((tab) => searchReg.test(tab.label));
+      if (target) {
+        vscode.window.tabGroups.close(target);
+      }
+    });
+  });
 }
 
 // VS Code dispatches a series of DidChangeActiveTextEditor events when moving tabs between groups, we don't want most of them.
 function triggerAutoPreview(editor: vscode.TextEditor | undefined): void {
-  // Diff View: viewColumn = undefined
   if (!editor || editor.document.languageId !== "markdown" || editor.viewColumn !== 1) {
     return;
   }
 
-  if (debounceHandle) {
-    clearTimeout(debounceHandle);
-    debounceHandle = undefined;
+  if (autoPreviewDebounce) {
+    clearTimeout(autoPreviewDebounce);
+    autoPreviewDebounce = undefined;
   }
 
   // Usually, a user only wants to trigger preview when the currently and last viewed documents are not the same.
   const doc = editor.document;
   if (doc !== lastDoc) {
     lastDoc = doc;
-    debounceHandle = setTimeout(() => autoPreviewToSide(editor), 100);
+    autoPreviewDebounce = setTimeout(() => autoPreviewToSide(editor), 100);
   }
 }
 

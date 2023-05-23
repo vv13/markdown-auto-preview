@@ -1,14 +1,30 @@
 # markdown-auto-preview README
 
 [![version](https://img.shields.io/visual-studio-marketplace/v/vv13.markdown-auto-preview?label=vscode%20marketplace)](https://marketplace.visualstudio.com/items?itemName=vv13.markdown-auto-preview)
+![demo](./markdown-auto-preview.gif)
 
 The smarter markdown preview extensions.
 
 ## Features
 
-- Automatically open or close preview window, and focus cursor to editor.
-- Providing various github theme styles in preview.
-- Integrates some commonly used syntax snippets, like `/h2`, `/code`, `/table` and etc.
+### Auto Open&Close Preview
+
+Automatically open or close preview window, and focus cursor to editor.
+
+### Markdown Preview Theme
+
+Providing various github theme styles in preview.
+
+### Snippets
+
+Current support snippet prefix:
+
+- Title: `/h1`, `/h2`, `/h3`, `/h4`, `/h5`
+- Code: `/code`
+- Table: `/table`
+- Divider: `/divide`
+- Image: `/image`
+- Link: `/url`
 
 ## Settings
 

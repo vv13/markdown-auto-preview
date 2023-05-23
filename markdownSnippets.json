@@ -72,5 +72,5 @@
             "[$1]($2)"
         ],
         "description": "Inserts a url"
-    },
+    }
 }
