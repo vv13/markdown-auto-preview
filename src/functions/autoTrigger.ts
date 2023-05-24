@@ -26,6 +26,10 @@ export function activate(context: vscode.ExtensionContext) {
       }
     }
   });
+  if (vscode.workspace.getConfiguration("markdown-auto-preview").get<boolean>("autoShowPreviewToSide")) {
+    registerAutoPreview();
+    triggerAutoPreview(vscode.window.activeTextEditor);
+  }
 
   const d2 = vscode.commands.registerCommand("markdown-auto-preview.closePreview", () => {
     return vscode.commands.executeCommand("workbench.action.closeActiveEditor");

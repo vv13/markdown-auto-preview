@@ -38,9 +38,10 @@ This extension provides the following settings:
 
 ## Release Notes
 
-### 0.3.0
+### 0.3.x
 
-Add some markdown snippets.
+- Add some markdown snippets.
+- Improve documentation.
 
 ### 0.2.0
 
