@@ -37,6 +37,8 @@ This extension provides the following settings:
 - `markdown-auto-preview.darkTheme`: Theme to use when displaying in Dark mode. Ignored if **markdown-auto-preview.colorTheme** is set to `Light`..
 
 ## Release Notes
+### 0.3.3
+- Fix reopen window problem in issue#1.
 
 ### 0.3.x
 

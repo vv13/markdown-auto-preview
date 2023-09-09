@@ -77,7 +77,11 @@ function registerAutoClose() {
 
 // VS Code dispatches a series of DidChangeActiveTextEditor events when moving tabs between groups, we don't want most of them.
 function triggerAutoPreview(editor: vscode.TextEditor | undefined): void {
-  if (!editor || editor.document.languageId !== "markdown" || editor.viewColumn !== 1) {
+  if (!editor || editor.viewColumn !== 1) {
+    return;
+  }
+  if (editor.document.languageId !== "markdown") {
+    lastDoc = undefined;
     return;
   }
 
@@ -86,7 +90,6 @@ function triggerAutoPreview(editor: vscode.TextEditor | undefined): void {
     autoPreviewDebounce = undefined;
   }
 
-  // Usually, a user only wants to trigger preview when the currently and last viewed documents are not the same.
   const doc = editor.document;
   if (doc !== lastDoc) {
     lastDoc = doc;
