@@ -30,6 +30,7 @@ Current support snippet prefix:
 
 This extension provides the following settings:
 
+- `markdown-auto-preview.autoClosePreviewAfterSwitch`: Auto close preview window when switch to another tab.
 - `markdown-auto-preview.autoShowPreviewToSide`: Auto show preview to side.
 - `markdown-auto-preview.autoClosePreviewWindow`: Auto close preview window when close source markdown file.
 - `markdown-auto-preview.colorTheme`: Color theme mode for the styling of the Markdown preview.
@@ -37,10 +38,13 @@ This extension provides the following settings:
 - `markdown-auto-preview.darkTheme`: Theme to use when displaying in Dark mode. Ignored if **markdown-auto-preview.colorTheme** is set to `Light`..
 
 ## Release Notes
+### 0.3.4
+- Add auto-close-preview feature when switch tabs.
+
 ### 0.3.3
 - Fix reopen window problem in issue#1.
 
-### 0.3.x
+### 0.3.0
 
 - Add some markdown snippets.
 - Improve documentation.

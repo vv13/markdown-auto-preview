@@ -3,7 +3,7 @@
   "displayName": "Markdown Auto Preview",
   "publisher": "vv13",
   "description": "Automatically preview Markdown with Github styling.",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "engines": {
     "vscode": "^1.77.0"
   },
@@ -40,6 +40,11 @@
       "type": "object",
       "title": "Markdown Auto Preview",
       "properties": {
+        "markdown-auto-preview.autoClosePreviewAfterSwitch": {
+          "type": "boolean",
+          "default": false,
+          "description": "Auto close preview window when switch to another tab."
+        },
         "markdown-auto-preview.autoShowPreviewToSide": {
           "type": "boolean",
           "default": true,

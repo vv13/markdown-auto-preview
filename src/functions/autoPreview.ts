@@ -1,50 +1,31 @@
 import * as vscode from "vscode";
-import * as path from "path";
 
 let autoPreviewDebounce: ReturnType<typeof setTimeout> | undefined;
 let lastDoc: vscode.TextDocument | undefined;
 
 let _autoPreviewDisposable: vscode.Disposable | null = null;
 
-let _autoCloseDisposable: vscode.Disposable | null = null;
-
 export function activate(context: vscode.ExtensionContext) {
   // Register auto preview. And try showing preview on activation.
   const d1 = vscode.workspace.onDidChangeConfiguration((e) => {
     if (e.affectsConfiguration("markdown-auto-preview")) {
-      if (vscode.workspace.getConfiguration("markdown-auto-preview").get<boolean>("autoShowPreviewToSide")) {
-        registerAutoPreview();
-      } else {
-        _autoPreviewDisposable?.dispose?.();
-        _autoPreviewDisposable = null;
-      }
-      if (vscode.workspace.getConfiguration("markdown-auto-preview").get<boolean>("autoClosePreviewWindow")) {
-        registerAutoClose();
-      } else {
-        _autoCloseDisposable?.dispose?.();
-        _autoCloseDisposable = null;
-      }
+      configEffect();
     }
   });
+  configEffect();
+
+  // Keep code tidy.
+  context.subscriptions.push(d1, _autoPreviewDisposable!);
+  return {};
+}
+function configEffect() {
   if (vscode.workspace.getConfiguration("markdown-auto-preview").get<boolean>("autoShowPreviewToSide")) {
     registerAutoPreview();
     triggerAutoPreview(vscode.window.activeTextEditor);
+  } else {
+    _autoPreviewDisposable?.dispose?.();
+    _autoPreviewDisposable = null;
   }
-
-  const d2 = vscode.commands.registerCommand("markdown-auto-preview.closePreview", () => {
-    return vscode.commands.executeCommand("workbench.action.closeActiveEditor");
-  });
-
-  // Auto-close Preview
-  const autoClosePreview = vscode.workspace
-    .getConfiguration("markdown-auto-preview")
-    .get<boolean>("autoClosePreviewWindow");
-  if (autoClosePreview) {
-    registerAutoClose();
-  }
-  // Keep code tidy.
-  context.subscriptions.push(d1, d2, _autoPreviewDisposable!, _autoCloseDisposable!);
-  return {};
 }
 
 function registerAutoPreview() {
@@ -52,27 +33,6 @@ function registerAutoPreview() {
     return;
   }
   _autoPreviewDisposable = vscode.window.onDidChangeActiveTextEditor((editor) => triggerAutoPreview(editor));
-}
-
-function registerAutoClose() {
-  if (_autoCloseDisposable) {
-    return;
-  }
-
-  _autoCloseDisposable = vscode.workspace.onDidCloseTextDocument((document: vscode.TextDocument) => {
-    const filename = document.fileName.split(path.sep).pop();
-    if (!filename || !filename?.endsWith(".md")) {
-      return;
-    }
-
-    vscode.window.tabGroups.all.forEach((item) => {
-      const searchReg = new RegExp(`\\[?Preview\\]?\\s${filename.slice(0, filename.length - 3)}\\.md`);
-      const target = item.tabs.find((tab) => searchReg.test(tab.label));
-      if (target) {
-        vscode.window.tabGroups.close(target);
-      }
-    });
-  });
 }
 
 // VS Code dispatches a series of DidChangeActiveTextEditor events when moving tabs between groups, we don't want most of them.
